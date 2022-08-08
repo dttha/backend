@@ -7,7 +7,7 @@ const data = {
             image: "/images/b1.jpg",
             price: 106000,
             discount: 15,
-            countInStock: 100,
+            countInStock: 0,
             author: "Nguyễn Nhật Ánh",
             publisher: "NXB Trẻ",
             weight: 400,
