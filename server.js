@@ -6,6 +6,7 @@ import productRouter from './routes/productRoutes.js';
 import path from 'path'
 import { fileURLToPath } from 'url';
 import userRouter from './routes/userRoutes.js';
+import cors from 'cors'
 const __filename = fileURLToPath(import.meta.url);
 
 const __dirname = path.dirname(__filename);
@@ -21,6 +22,7 @@ mongoose.connect(process.env.MONGODB_URL).then(() => {
 const app = express();
 
 app.use(express.json());
+app.use(cors())
 app.use(express.urlencoded({ extended: true }));
 
 app.use(express.static('public'));
