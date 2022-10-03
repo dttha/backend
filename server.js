@@ -7,6 +7,8 @@ import path from 'path'
 import { fileURLToPath } from 'url';
 import userRouter from './routes/userRoutes.js';
 import cors from 'cors'
+import orderRouter from './routes/orderRoutes.js';
+
 const __filename = fileURLToPath(import.meta.url);
 
 const __dirname = path.dirname(__filename);
@@ -30,6 +32,7 @@ app.use('/images', express.static('images'));
 app.use('/api/seed', seedRouter);
 app.use('/api/products', productRouter)
 app.use('/api/users', userRouter);
+app.use('/api/orders', orderRouter);
 
 app.use('/', (req, res) => {
     return res.render('Hello')
