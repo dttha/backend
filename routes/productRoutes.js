@@ -1,6 +1,7 @@
 import express from 'express';
 import expressAsyncHandler from 'express-async-handler';
-import Product from '../model/productModel.js'
+import Product from '../model/productModel.js';
+import { isAuth, isAdmin } from '../utils.js';
 
 const productRouter = express.Router()
 
@@ -31,5 +32,130 @@ productRouter.get('/:_id', async (req, res) => {
         res.status(404).send({ message: 'Sản phẩm không tồn tại' })
     }
 })
+
+productRouter.post(
+    '/',
+    isAuth,
+    isAdmin,
+    expressAsyncHandler(async (req, res) => {
+        const newProduct = new Product({
+            name: 'sample name ' + Date.now(),
+            slug: 'sample-name-' + Date.now(),
+            image: '/images/p1.jpg',
+            price: 0,
+            category: 'sample category',
+            brand: 'sample brand',
+            countInStock: 0,
+            rating: 0,
+            numReviews: 0,
+            description: 'sample description',
+        });
+        const product = await newProduct.save();
+        res.send({ message: 'Product Created', product });
+    })
+);
+
+
+const PAGE_SIZE = 3;
+
+productRouter.get(
+    '/admin',
+    isAuth,
+    isAdmin,
+    expressAsyncHandler(async (req, res) => {
+        const { query } = req;
+        const page = query.page || 1;
+        const pageSize = query.pageSize || PAGE_SIZE;
+
+        const products = await Product.find()
+            .skip(pageSize * (page - 1))
+            .limit(pageSize);
+        const countProducts = await Product.countDocuments();
+        res.send({
+            products,
+            countProducts,
+            page,
+            pages: Math.ceil(countProducts / pageSize),
+        });
+    })
+);
+
+productRouter.get(
+    '/search',
+    expressAsyncHandler(async (req, res) => {
+        const { query } = req;
+        const pageSize = query.pageSize || PAGE_SIZE;
+        const page = query.page || 1;
+        const category = query.category || '';
+        const price = query.price || '';
+        const rating = query.rating || '';
+        const order = query.order || '';
+        const searchQuery = query.query || '';
+
+        const queryFilter =
+            searchQuery && searchQuery !== 'all'
+                ? {
+                    name: {
+                        $regex: searchQuery,
+                        $options: 'i',
+                    },
+                }
+                : {};
+        const categoryFilter = category && category !== 'all' ? { category } : {};
+        const ratingFilter =
+            rating && rating !== 'all'
+                ? {
+                    rating: {
+                        $gte: Number(rating),
+                    },
+                }
+                : {};
+        const priceFilter =
+            price && price !== 'all'
+                ? {
+                    // 1-50
+                    price: {
+                        $gte: Number(price.split('-')[3]),
+                        $lte: Number(price.split('-')[4]),
+                    },
+                }
+                : {};
+        const sortOrder =
+            order === 'featured'
+                ? { featured: -1 }
+                : order === 'lowest'
+                    ? { price: 1 }
+                    : order === 'highest'
+                        ? { price: -1 }
+                        : order === 'toprated'
+                            ? { rating: -1 }
+                            : order === 'newest'
+                                ? { createdAt: -1 }
+                                : { _id: -1 };
+
+        const products = await Product.find({
+            ...queryFilter,
+            ...categoryFilter,
+            ...priceFilter,
+            ...ratingFilter,
+        })
+            .sort(sortOrder)
+            .skip(pageSize * (page - 1))
+            .limit(pageSize);
+
+        const countProducts = await Product.countDocuments({
+            ...queryFilter,
+            ...categoryFilter,
+            ...priceFilter,
+            ...ratingFilter,
+        });
+        res.send({
+            products,
+            countProducts,
+            page,
+            pages: Math.ceil(countProducts / pageSize),
+        });
+    })
+);
 
 export default productRouter
