@@ -8,6 +8,7 @@ import { fileURLToPath } from 'url';
 import userRouter from './routes/userRoutes.js';
 import cors from 'cors'
 import orderRouter from './routes/orderRoutes.js';
+import uploadRouter from './routes/uploadRoutes.js';
 
 const __filename = fileURLToPath(import.meta.url);
 
@@ -33,6 +34,7 @@ app.get('/api/keys/paypal', (req, res) => {
 
 app.use(express.static('public'));
 app.use('/images', express.static('images'));
+app.use('/api/upload', uploadRouter);
 app.use('/api/seed', seedRouter);
 app.use('/api/products', productRouter)
 app.use('/api/users', userRouter);
