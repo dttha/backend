@@ -25,7 +25,6 @@ const data = {
             category: "Tiểu thuyết",
             image: "https://firebasestorage.googleapis.com/v0/b/e-ecommerce-95c2e.appspot.com/o/images%2Fb1.jpg?alt=media&token=ad000707-e041-458e-940d-728182169258",
             price: 106000,
-            discount: 15,
             countInStock: 0,
             author: "Nguyễn Nhật Ánh",
             publisher: "NXB Trẻ",
@@ -44,7 +43,6 @@ const data = {
             category: "Văn học",
             image: "https://firebasestorage.googleapis.com/v0/b/e-ecommerce-95c2e.appspot.com/o/images%2Fb2.jpg?alt=media&token=a2e30f2b-e9d5-4735-a762-44f28d545bc4",
             price: 186000,
-            discount: 20,
             countInStock: 100,
             author: "José Mauro de Vasconcelos",
             publisher: "NXB Hội Nhà Văn",
@@ -63,7 +61,6 @@ const data = {
             category: "Truyện thiếu nhi",
             image: "https://firebasestorage.googleapis.com/v0/b/e-ecommerce-95c2e.appspot.com/o/images%2Fb3.jpg?alt=media&token=6285155d-f969-4004-a572-b1e16c090b57",
             price: 30000,
-            discount: 13,
             countInStock: 4,
             author: "Mai Thị Việt Thắng, KUI Phạm, Phạm Hoài Thương",
             publisher: "Phụ Nữ Việt Nam",
@@ -82,7 +79,6 @@ const data = {
             category: "Tôn giáo",
             image: "https://firebasestorage.googleapis.com/v0/b/e-ecommerce-95c2e.appspot.com/o/images%2Fb4.jpg?alt=media&token=9ea381e6-fbfb-4560-ba7a-682b9d375053",
             price: 129000,
-            discount: 13,
             countInStock: 10,
             author: "Joseph Goldstein",
             publisher: "Hà Nội",
@@ -94,7 +90,17 @@ const data = {
             numReviews: 5,
             description: "Ngày nay, chúng ta đang đi tới một vòng tròn trọn vẹn và lần nữa lại có một sự giao thoa lớn giữa các truyền thống. Những yếu tố nuôi dưỡng sự nổi lên của Một Pháp vào thời điểm này là sự phong phú to lớn của những giáo lý đã sẵn có và sự khó khăn của việc đánh giá những quan niệm khác biệt, mỗi quan niệm đều đúng và được chứng nghiệm từ góc nhìn của chính nó. Khi học hỏi và tôn trọng những vị thầy và giáo lý từ nhiều truyền thống khác nhau, thách thức của chúng ta là làm sao để nắm giữ tất cả trong sự sáng suốt thay vì trong sự hoang mang hoặc mâu thuẫn. Phật giáo phương Tây chắc chắn sẽ là một sự tổng hợp của những truyền thống trí tuệ vĩ đại này. Điều đó đã và đang diễn ra. Đây không cần phải là một sự mai một hoặc trộn lẫn của những giáo lý khác nhau. Chúng ta có thể thực hành mỗi giáo lý trong sự trọn vẹn của riêng chúng và đạt tới một chiều sâu thực sự của hiểu biết. Năm 1985, tôi tham gia một khóa thiền ở Nepal với Sayadaw U Pandita.Chúng tôi sống trong những khu tập thể đông đúc và thực hành trong những hoàn cảnh mà tôi cho là kém lý tưởng.Năm người chúng tôi sống chung trong một căn phòng có nền bê tông ngay cạnh nhà tiêu.Khi thiền hành, tâm tôi cứ bị phân tán với đủ loại phán xét về người khác và sau đó tràn đầy nghi ngờ về bản thân, tất cả đều có vẻ hoàn toàn chính đáng.Khi tôi trình kinh nghiệm của mình với Sayadaw, Ngài khuyên: “Hãy chú tâm hơn nữa.” Lúc đầu tôi nghĩ: “Chà, một sự trợ giúp lớn đây!” nhưng sau đó quyết định thử làm theo lời khuyên của Ngài.Tôi bắt đầu chú tâm nhiều hơn đến những chuyển động khi đi bộ, đến những cảm giác mà mình đang cảm nhận.Thật kinh ngạc, tâm lập tức yên lặng trở lại; trong sự khít khao của sự tập trung vào cơ thể, không có nhiều chỗ cho tất cả những đánh giá, nghi ngờ. Học cách sống trong một không gian thân thiện và yêu thương đòi hỏi sự kiên nhẫn và liên tục.Chúng ta rất thường xuyên rơi vào những khuôn mẫu quen thuộc của sự khó chịu, bực bội, tức giận và ác ý.Nhưng những trạng thái này cũng có thể là một hồi chuông cảnh tỉnh nhắc nhở chúng ta nên khảo sát hơn là chết chìm trong chúng.Thomas Merton biết rằng trải qua những giai đoạn khó khăn là một phần thiết yếu của hành trình tâm linh.Ông viết:“Cầu nguyện và yêu thương được học trong thời điểm mà cầu nguyện trở nên bất khả thi và trái tim hóa đá.”"
         }
-    ]
+    ],
+    advertisements: [
+        {
+            alt: "anh-bia-1",
+            image: "https://firebasestorage.googleapis.com/v0/b/e-ecommerce-95c2e.appspot.com/o/images%2FCarouse1.png?alt=media&token=43f3df54-abba-459b-95f7-cba0e4427221"
+        },
+        {
+            alt: "anh-bia-2",
+            image: "https://firebasestorage.googleapis.com/v0/b/e-ecommerce-95c2e.appspot.com/o/images%2FCarouse1.png?alt=media&token=43f3df54-abba-459b-95f7-cba0e4427221"
+        },
+    ],
 }
 
 export default data;

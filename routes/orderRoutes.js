@@ -110,9 +110,9 @@ orderRouter.put(
             order.isDelivered = true;
             order.deliveredAt = Date.now();
             await order.save();
-            res.send({ message: 'Order Delivered' });
+            res.send({ message: 'Đơn hàng đã được vận chuyển' });
         } else {
-            res.status(404).send({ message: 'Order Not Found' });
+            res.status(404).send({ message: 'Đơn hàng không tồn tại' });
         }
     })
 );
@@ -134,9 +134,9 @@ orderRouter.put(
 
             const updatedOrder = await order.save();
 
-            res.send({ message: 'Order Paid', order: updatedOrder });
+            res.send({ message: 'Đơn hàng đã được thanh toán', order: updatedOrder });
         } else {
-            res.status(404).send({ message: 'Order Not Found' });
+            res.status(404).send({ message: 'Đơn hàng không tồn tại' });
         }
     })
 );
@@ -149,9 +149,9 @@ orderRouter.delete(
         const order = await Order.findById(req.params.id);
         if (order) {
             await order.remove();
-            res.send({ message: 'Order Deleted' });
+            res.send({ message: 'Đơn hàng đã bị xóa' });
         } else {
-            res.status(404).send({ message: 'Order Not Found' });
+            res.status(404).send({ message: 'Đơn hàng không tồn tại' });
         }
     })
 );

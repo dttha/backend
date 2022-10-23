@@ -1,7 +1,6 @@
 import express from 'express';
 import mongoose from 'mongoose';
 import dotenv from 'dotenv';
-import seedRouter from './routes/seedRoutes.js';
 import productRouter from './routes/productRoutes.js';
 import path from 'path'
 import { fileURLToPath } from 'url';
@@ -9,6 +8,8 @@ import userRouter from './routes/userRoutes.js';
 import cors from 'cors'
 import orderRouter from './routes/orderRoutes.js';
 import uploadRouter from './routes/uploadRoutes.js';
+import advertisementRouter from './routes/advertisementRoutes.js';
+import cartRouter from './routes/cartRoutes.js';
 
 const __filename = fileURLToPath(import.meta.url);
 
@@ -35,10 +36,11 @@ app.get('/api/keys/paypal', (req, res) => {
 app.use(express.static('public'));
 app.use('/images', express.static('images'));
 app.use('/api/upload', uploadRouter);
-app.use('/api/seed', seedRouter);
+app.use('/api/advertisements', advertisementRouter);
 app.use('/api/products', productRouter)
 app.use('/api/users', userRouter);
 app.use('/api/orders', orderRouter);
+app.use('/api/cart', cartRouter);
 
 app.use('/', (req, res) => {
     return res.render('Hello')
