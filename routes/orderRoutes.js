@@ -1,5 +1,7 @@
 import express from 'express';
 import expressAsyncHandler from 'express-async-handler';
+import sendEmail from '../helper/mailer.js';
+import { deliverOrderEmailTemplate, payOrderEmailTemplate } from '../helper/mailOrder.js';
 import Order from '../model/orderModel.js';
 import Product from '../model/productModel.js';
 import User from '../model/userModel.js';
@@ -11,7 +13,7 @@ orderRouter.get(
     isAuth,
     isAdmin,
     expressAsyncHandler(async (req, res) => {
-        const orders = await Order.find().populate('user', 'name');
+        const orders = await Order.find().populate('user', 'name').sort({ createdAt: -1 });
         res.send(orders);
     })
 );
@@ -83,7 +85,7 @@ orderRouter.get(
     '/mine',
     isAuth,
     expressAsyncHandler(async (req, res) => {
-        const orders = await Order.find({ user: req.user._id });
+        const orders = await Order.find({ user: req.user._id }).sort({ createdAt: -1 });
         res.send(orders);
     })
 );
@@ -105,11 +107,13 @@ orderRouter.put(
     '/:id/deliver',
     isAuth,
     expressAsyncHandler(async (req, res) => {
-        const order = await Order.findById(req.params.id);
+        const order = await Order.findById(req.params.id).populate("user");
         if (order) {
             order.isDelivered = true;
             order.deliveredAt = Date.now();
             await order.save();
+            sendEmail({ from: "Hà", to: order.user.email, subject: `Vận chuyển đơn hàng ${order._id}`, html: deliverOrderEmailTemplate(order) }).then((res) =>
+                console.log(res)).catch((err) => console.log(err))
             res.send({ message: 'Đơn hàng đã được vận chuyển' });
         } else {
             res.status(404).send({ message: 'Đơn hàng không tồn tại' });
@@ -133,6 +137,10 @@ orderRouter.put(
             };
 
             const updatedOrder = await order.save();
+            const orderPopulate = await Order.findOne(updatedOrder).populate("user")
+            console.log(orderPopulate, "order.user.email", orderPopulate.user.email)
+            sendEmail({ from: "Hà", to: orderPopulate.user.email, subject: `Đơn hàng mới ${orderPopulate._id}`, html: payOrderEmailTemplate(orderPopulate) }).then((res) =>
+                console.log(res)).catch((err) => console.log(err))
 
             res.send({ message: 'Đơn hàng đã được thanh toán', order: updatedOrder });
         } else {

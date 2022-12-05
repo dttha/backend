@@ -10,6 +10,8 @@ import orderRouter from './routes/orderRoutes.js';
 import uploadRouter from './routes/uploadRoutes.js';
 import advertisementRouter from './routes/advertisementRoutes.js';
 import cartRouter from './routes/cartRoutes.js';
+import Product from './model/productModel.js';
+import sendEmail from './helper/mailer.js';
 
 const __filename = fileURLToPath(import.meta.url);
 
@@ -17,8 +19,10 @@ const __dirname = path.dirname(__filename);
 
 dotenv.config();
 
-mongoose.connect(process.env.MONGODB_URL).then(() => {
+mongoose.connect(process.env.MONGODB_URL).then(async () => {
+    // await Product.updateMany({}, { reviews: [] })
     console.log('connected to db')
+    // await sendEmail({ from: "Hà", to: "phamnanghung.25@gmail.com", subject: '2333', html: "ccc" })
 }).catch(err => {
     console.log(err.message)
 })
