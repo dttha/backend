@@ -21,7 +21,7 @@ const orderSchema = new mongoose.Schema(
             phone: { type: String, required: true },
             city: { type: String, required: true },
             district: { type: String, required: true },
-            wards: { type: String, required: true },
+            ward: { type: String, required: true },
             address: { type: String, required: true },
         },
         paymentMethod: { type: String, required: true },

@@ -3,8 +3,64 @@ import bcrypt from 'bcryptjs';
 import expressAsyncHandler from 'express-async-handler';
 import User from '../model/userModel.js';
 import { isAuth, generateToken, isAdmin } from '../utils.js';
+import jwt from 'jsonwebtoken';
+import sendEmail from '../helper/mailer.js';
 
 const userRouter = express.Router();
+
+userRouter.post(
+    '/send-email-password',
+    expressAsyncHandler(async (req, res) => {
+        try {
+
+            const { email } = req.body;
+            if (!email) {
+                return res.status(400).json({ message: "Chưa điền email." });
+            }
+            const user = await User.findOne({ email: email })
+            if (!user) {
+                return res.status(400).json({ message: "Không tìm thấy người dùng" });
+            }
+            const token = generateToken(user)
+            console.log("🚀 ~ file: userRoutes.js:158 ~ expressAsyncHandler ~ token", token)
+            await sendEmail({
+                to: email,
+                html: `<a href="http://localhost:3000/forwardPassword/confirm-password?token=${token}">Bấm vào đây</a> để tạo mật khẩu mới`,
+                subject: "TẠO MẬT KHẨU",
+                from: "Hà",
+            });
+            return res.status(200).json({ success: true });
+        } catch (e) {
+            console.log(e);
+            return res.status(400).json({ message: "Có lỗi xảy ra" });
+        }
+    })
+)
+
+userRouter.post(
+    '/confirm-password',
+    expressAsyncHandler(async (req, res) => {
+        const { password, token } = req.body;
+        if (!password) {
+            return res.status(400).json({ message: "Chưa nhập password." });
+        }
+        const user = jwt.verify(token, process.env.JWT_SECRET);
+        if (!user) {
+            return res.status(400).json({ message: "Token hết hạn" });
+        }
+        const { _id } = user;
+
+        const userUpdate = await User.findOne({ _id });
+        if (!userUpdate) {
+            return res.status(400).json({ message: "Không tìm thấy người dùng." });
+        }
+        userUpdate.password = bcrypt.hashSync(password, 8);
+        await userUpdate.save();
+        return res.status(200).json({
+            success: true,
+        });
+    })
+)
 
 userRouter.get(
     '/',
@@ -142,6 +198,9 @@ userRouter.post(
         });
     })
 )
+
+
+
 
 
 

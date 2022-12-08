@@ -18,7 +18,7 @@ export const payOrderEmailTemplate = (order) => {
     <tr>
     <td>${item.name}</td>
     <td align="center">${item.quantity}</td>
-    <td align="right"> $${item.price.toFixed(0)}</td>
+    <td align="right"> ${item.price.toFixed(0)}đ</td>
     </tr>
   `
       )
@@ -47,7 +47,7 @@ export const payOrderEmailTemplate = (order) => {
   ${order.shippingAddress.fullName},<br/>
   ${order.shippingAddress.city},<br/>
   ${order.shippingAddress.district},<br/>
-  ${order.shippingAddress.wards},<br/>
+  ${order.shippingAddress.ward},<br/>
   ${order.shippingAddress.address},<br/>
   </p>
   <hr/>
@@ -69,7 +69,7 @@ export const deliverOrderEmailTemplate = (order) => {
   ${order.shippingAddress.fullName},<br/>
   ${order.shippingAddress.city},<br/>
   ${order.shippingAddress.district},<br/>
-  ${order.shippingAddress.wards},<br/>
+  ${order.shippingAddress.ward},<br/>
   ${order.shippingAddress.address},<br/>
   </p>
   <hr/>
