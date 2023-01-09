@@ -62,7 +62,7 @@ orderRouter.get(
         const dailyOrders = await Order.aggregate([
             {
                 $group: {
-                    _id: { $dateToString: { format: '%Y-%m-%d', date: '$createdAt' } },
+                    _id: { $dateToString: { format: '%Y-%m', date: '$createdAt' } },
                     orders: { $sum: 1 },
                     sales: { $sum: '$totalPrice' },
                 },
